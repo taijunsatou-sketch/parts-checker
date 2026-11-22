@@ -3,11 +3,11 @@
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#162334;--muted:#64748b;--line:#dbe3ec;--blue:#2563eb;--green:#16803c;--red:#c62828;--amber:#b76e00}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}main{max-width:820px;margin:auto;padding:14px 12px 40px}.top{padding:10px 4px 17px}.top h1{margin:0 0 6px;font-size:22px}.top p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0;box-shadow:0 2px 8px #0b17260a}.card h2{font-size:17px;margin:0 0 12px}.upload{display:block;border:1.5px dashed #aebccd;border-radius:12px;padding:16px;text-align:center;background:#f9fbfd;color:#34445a;cursor:pointer;position:relative;min-height:74px;touch-action:manipulation}.upload input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;z-index:2;cursor:pointer;font-size:16px}.upload strong{display:block;margin-bottom:5px}.filemeta{font-size:13px;color:var(--muted);margin-top:10px;overflow-wrap:anywhere}.status{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px;font-weight:600}.dot{width:11px;height:11px;border-radius:50%;background:#9aa8b7;flex:none}.dot.ok{background:#1b9c55}.dot.err{background:#d33939}.dot.busy{background:#e3a323}.progress{height:8px;border-radius:8px;background:#e8edf3;overflow:hidden;margin:9px 0}.bar{height:100%;width:0;background:var(--blue);transition:width .15s}.small{font-size:12px;color:var(--muted)}button{border:0;border-radius:12px;padding:13px 16px;font-size:15px;font-weight:650;cursor:pointer;background:var(--blue);color:white;width:100%;margin-top:10px}button.secondary{background:#e9eef5;color:#26374e}button.cancel{background:#c62828;margin-top:7px}button.cancel.hidden{display:none!important}button:disabled{opacity:.5;cursor:not-allowed}input[type=text],input[type=number]{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font-size:16px}label.field{display:block;font-size:13px;color:#536276;margin:10px 0}label.field input{margin-top:5px}.results{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;background:#f7f9fb;border-radius:10px;padding:12px;max-height:420px;overflow:auto;margin-top:10px}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.chip{font-size:12px;padding:5px 9px;border-radius:20px;background:#eef2f7;color:#435267}.chip.weld{background:#fff1d4;color:#8a5200}.chip.connect{background:#d9f7e5;color:#176534}.chip.match{outline:2px solid #2563eb}.foot{font-size:12px;color:var(--muted);line-height:1.5}.hidden{display:none!important}.badge{display:inline-block;border-radius:18px;padding:3px 9px;font-size:12px;font-weight:700;background:#eaf0f7;color:#44566b}.badge.weld{background:#fff1d4;color:#8a5200}.badge.connect{background:#d9f7e5;color:#176534}.summarybox{padding:12px;border-radius:10px;background:#f1f5f9;margin-top:10px}.resultrow{border-bottom:1px solid #e1e7ef;padding:9px 0}.resultrow:last-child{border-bottom:0}.label{color:var(--muted);font-size:12px}.batch-head{display:grid;grid-template-columns:minmax(0,1fr) 78px 92px 40px;gap:8px;font-size:12px;color:var(--muted);font-weight:700;margin:10px 0 4px}.batch-row{display:grid;grid-template-columns:minmax(0,1fr) 78px 92px 40px;gap:8px;align-items:center;margin:7px 0}.batch-head span:nth-child(3){text-align:center}.batch-head span:nth-child(4){text-align:center}.batch-row input{min-width:0}.batch-actions{display:flex;gap:8px}.batch-actions button{flex:1}.batch-row .qtyinput{width:100%}.batch-row .inline-result{width:100%;justify-self:center;white-space:nowrap}.batch-row .remove-row{min-width:0}.inline-result{font-size:11px;font-weight:700;text-align:center;padding:5px 2px;border-radius:8px;background:#eef2f7;color:#64748b;min-width:0}.inline-result.good{background:#d9f7e5;color:#176534}.inline-result.bad{background:#ffe1e1;color:#a52020}@media(max-width:480px){.batch-head,.batch-row{grid-template-columns:minmax(0,1fr) 58px 76px 32px;gap:4px}.batch-row input{padding:10px 7px;font-size:15px}}.big{font-size:22px;font-weight:800}.good{color:var(--green)}.bad{color:var(--red)}
 </style></head><body><main>
-<header class="top"><h1>現品票・図面 数量照合（試作）</h1><p>品目コード・現品票数量は手入力。MATERIAL分類ごとに探索位置を切り替え、MATERIALに応じて右上・右下の部品表だけを優先OCRします。</p></header>
+<header class="top"><h1>現品票・図面 数量照合（試作）</h1><p>品目コード・現品票数量は手入力。MATERIAL分類ごとに探索位置を切り替え、図面右下のMATERIAL欄を拡大して分類し、対応する部品表を優先OCRします。</p></header>
 <section class="card"><h2>① 配管図PDF</h2><label class="upload"><strong>PDF図面を選択</strong><span class="small">PDFを端末内で解析します</span><input id="pdfFile" type="file" accept="application/pdf"></label><div id="pdfStatus" class="status"><span class="dot"></span><span>PDF未選択</span></div><div id="pdfMeta" class="filemeta"></div><div class="field"><strong>照合する品目（コードと納入数）</strong><div class="batch-head"><span>品目コード</span><span>納入数</span><span>判定</span><span>削除</span></div><div id="itemRows"></div><div class="batch-actions"><button id="addItem" type="button" class="secondary">＋ 品目追加</button></div><p class="small">最初に5品目分の入力欄があります。必要に応じて追加できます。</p></div><label class="field"><input id="deepScan" type="checkbox"> 精密検索（部品表で見つからない場合に図面全体もOCR・時間がかかります）</label><button id="analyzePdf" disabled>高速解析・数量照合</button><button id="cancelPdf" class="cancel hidden" type="button">解析を中止</button><div class="progress hidden" id="progress"><div class="bar" id="progressBar"></div></div><div id="progressText" class="small"></div><div id="pdfPages" class="chips"></div><div id="pdfResults" class="results hidden"></div></section>
 <section class="card"><h2>③ 解析ルール（試作）</h2><div class="results">WELD：右下の部品表を優先OCR
 CONNECT：右上の部品表を優先OCR
-分類不明：右上・右下の両方をOCR
+分類不明：MATERIAL欄を再拡大して確認し、それでも不明なら右上・右下の両方をOCR
 高速モードでは図面全体OCRを省略します（精密検索を選ぶと追加）。
 同じ行の品目コードと数量を対応付け、曖昧な場合は数量未確認。
 同じPDFの再照合は解析結果を再利用します。</div></section><p class="foot">試作版です。数量は部品表の同一行から読み取れた場合のみ判定します。OCRの誤認識があるため、必ず原図で確認してください。</p></main>
@@ -26,7 +26,34 @@ $('addItem').onclick=appendItemRow;for(let i=0;i<5;i++)appendItemRow();
 $('pdfFile').addEventListener('change',e=>{const f=e.target.files?.[0];if(!f)return;pdfFile=f;$('analyzePdf').disabled=false;$('pdfPages').innerHTML='';$('pdfResults').classList.add('hidden');$('pdfMeta').textContent='ファイル：'+f.name+' / '+bytes(f.size);status('PDFを選択しました','ok');e.target.value='';});
 $('cancelPdf').onclick=()=>{cancelRequested=true;status('現在のOCRが終了したら中止します','busy');};
 function codeInText(code,text){const target=norm(code);if(!target)return false;const lines=String(text||'').split(/\n/);return lines.some((l,i)=>norm(l).includes(target)||(i+1<lines.length&&norm(l+lines[i+1]).includes(target)));}
-function detectType(text){const s=String(text||'').toUpperCase();if(/\bWELD\b/.test(s))return 'WELD';if(/\bCONNECT\b/.test(s))return 'CONNECT';return '不明';}
+function detectType(text){
+ const raw=String(text||'').toUpperCase();
+ // OCRで混同しやすい数字・文字を補正する。MATERIAL欄だけを入力として使う。
+ const lines=raw.split(/\r?\n/).map(s=>s.replace(/[^A-Z0-9]/g,''));
+ const candidates=lines.flatMap((s,i)=>[s,(lines[i+1]||'')]);
+ let weld=false,connect=false;
+ for(let s of candidates){
+  s=s.replace(/0/g,'O').replace(/1/g,'I').replace(/5/g,'S').replace(/8/g,'B');
+  if(s.includes('WELD')||s.includes('WEID')||s.includes('VV ELD'.replace(/ /g,'')))weld=true;
+  if(s.includes('CONNECT')||s.includes('C0NNECT')||s.includes('CONNEGT')||s.includes('CONNECI'))connect=true;
+ }
+ return weld&&!connect?'WELD':connect&&!weld?'CONNECT':'不明';
+}
+async function classifyMaterial(page){
+ // 右下のタイトルブロックにあるMATERIAL値のみを読む。図面全体の文字では分類しない。
+ const crops=[
+  [.875,.835,.12,.105], // MATERIALとその直下の値
+  [.855,.795,.14,.17],  // 図面の余白・縮尺差に備えた拡張範囲
+ ];
+ const observations=[];
+ for(const crop of crops){
+  if(cancelRequested)break;
+  const t=await recognizeRegion(page,crop,3.8,'6');observations.push(t);
+  const type=detectType(t);
+  if(type!=='不明')return {type,detail:'MATERIAL欄をOCRで確認',raw:t};
+ }
+ return {type:'不明',detail:'MATERIAL欄の文字を確定できず',raw:observations.join(' / ')};
+}
 async function ensureWorker(){if(!window.Tesseract)throw new Error('OCRライブラリを読み込めません。ネット接続を確認してください。');if(!ocrWorker){ocrWorker=await Tesseract.createWorker('eng',1,{logger:m=>{if(m.status==='recognizing text'&&m.progress!==undefined)$('progressText').textContent='文字認識 '+Math.round(m.progress*100)+'%';}});await ocrWorker.setParameters({tessedit_pageseg_mode:'6',preserve_interword_spaces:'1'});}return ocrWorker;}
 // Canvasは必要な領域だけを描画し、全ページを高解像度で保持しない。
 async function recognizeRegion(page,region,scale=3,psm='6'){
@@ -39,7 +66,7 @@ async function recognizeRegion(page,region,scale=3,psm='6'){
  const r=await worker.recognize(canvas);return r.data.text||'';
  }finally{canvas.width=0;canvas.height=0;}
 }
-const REGIONS={material:[.81,.80,.18,.19],upper:[.40,.09,.59,.25],lower:[.48,.74,.51,.22],whole:[0,0,1,1]};
+const REGIONS={material:[.875,.835,.12,.105],upper:[.40,.09,.59,.25],lower:[.48,.74,.51,.22],whole:[0,0,1,1]};
 // 部品表の1行内の「品目コード」と「数量」を照合。曖昧な行は判定しない。
 function parseTable(text,kind,page){
  const rows=[];
@@ -77,7 +104,7 @@ function evaluate(items,pages,fromCache){
    else{const ok=total===Number(item.qty);setBadge(item.row,ok?'一致候補':'不一致候補',ok?'good':'bad');output.push(item.code+`：図面数量候補 ${total} / 納入数 ${item.qty} → ${ok?'一致候補':'不一致候補'} / ${evidence}頁`);}
   }else{setBadge(item.row,'数量未確認');output.push(item.code+'：コード検出 '+evidence+'頁 / 部品表で数量を確定できず'+(candidates.length?'（候補 '+candidates.length+'行）':''));}
  }
- $('pdfResults').textContent=`解析完了：${pages.length}ページ${fromCache?'（保存済み結果を再利用）':''}\n品目コード検出：${detected}/${items.length}品目\n\n`+output.join('\n')+'\n\n※OCR数量は暫定値です。必ず原図の部品表で確認してください。';
+ $('pdfResults').textContent=`解析完了：${pages.length}ページ${fromCache?'（保存済み結果を再利用）':''}\n品目コード検出：${detected}/${items.length}品目\n\n`+output.join('\n')+'\n\n分類不明：'+pages.filter(p=>p.type==='不明').map(p=>p.n+'頁').join('、')+'\n※分類はMATERIAL欄のOCRのみを根拠にしています。OCR数量は暫定値です。必ず原図の部品表で確認してください。';
  status(`解析完了：${pages.length}ページ / コード検出 ${detected}品目`,'ok');$('progressText').textContent=fromCache?'キャッシュから再照合しました':'解析完了';
 }
 $('analyzePdf').onclick=async()=>{
@@ -85,7 +112,7 @@ $('analyzePdf').onclick=async()=>{
  const deep=$('deepScan').checked,key=fileKey(pdfFile,deep);
  items.forEach(x=>setBadge(x.row,'検索中'));cancelRequested=false;$('analyzePdf').disabled=true;$('cancelPdf').classList.remove('hidden');$('progress').classList.remove('hidden');$('progressBar').style.width='0%';$('pdfPages').innerHTML='';$('pdfResults').classList.remove('hidden');$('pdfResults').textContent='解析準備中…';status('解析中…','busy');
  try{
-  if(cache.has(key)){const pages=cache.get(key);for(const p of pages){const chip=document.createElement('span');chip.className='chip';chip.textContent=p.n+'頁 '+p.type;$('pdfPages').appendChild(chip);} $('progressBar').style.width='100%';evaluate(items,pages,true);return;}
+  if(cache.has(key)){const pages=cache.get(key);for(const p of pages){const chip=document.createElement('span');chip.className='chip';chip.textContent=p.n+'頁 '+p.type+(p.type==='不明'?'（MATERIAL読取不可）':'');$('pdfPages').appendChild(chip);} $('progressBar').style.width='100%';evaluate(items,pages,true);return;}
   if(!window.pdfjsLib)throw new Error('PDFライブラリを読み込めません。');
   pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   const task=pdfjsLib.getDocument({data:await pdfFile.arrayBuffer()});const pdf=await task.promise;const pages=[];
@@ -93,8 +120,8 @@ $('analyzePdf').onclick=async()=>{
    if(cancelRequested)break;
    const page=await pdf.getPage(n);const content=await page.getTextContent();const native=content.items.map(x=>x.str||'').join(' ');
    $('progressText').textContent=`${n}/${pdf.numPages}頁：MATERIALを判別中`;
-   let type=detectType(native);
-   if(type==='不明')type=detectType(await recognizeRegion(page,REGIONS.material,2.6));
+   const classification=await classifyMaterial(page);
+   const type=classification.type;
    if(cancelRequested)break;
    const areas=type==='WELD'?['lower']:type==='CONNECT'?['upper']:['upper','lower'];
    let text=native,rows=[];
@@ -105,8 +132,8 @@ $('analyzePdf').onclick=async()=>{
    if(cancelRequested)break;
    // 高速モードでは全ページOCRをしない。精密検索でのみ実行する。
    if(deep){$('progressText').textContent=`${n}/${pdf.numPages}頁：全体を追加OCR中`;text+='\n'+await recognizeRegion(page,REGIONS.whole,2.3,'11');}
-   pages.push({n,type,text,rows,deep});
-   const chip=document.createElement('span');chip.className='chip '+(type==='WELD'?'weld':type==='CONNECT'?'connect':'');chip.textContent=n+'頁 '+type;$('pdfPages').appendChild(chip);
+   pages.push({n,type,text,rows,deep,classification:classification.detail});
+   const chip=document.createElement('span');chip.className='chip '+(type==='WELD'?'weld':type==='CONNECT'?'connect':'');chip.textContent=n+'頁 '+type+(type==='不明'?'（MATERIAL読取不可）':'');$('pdfPages').appendChild(chip);
    $('progressBar').style.width=(n/pdf.numPages*100).toFixed(1)+'%';$('progressText').textContent=`${n}/${pdf.numPages}ページ完了`;
    await new Promise(r=>setTimeout(r,0));
   }
