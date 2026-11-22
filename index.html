@@ -3,14 +3,14 @@
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#162334;--muted:#64748b;--line:#dbe3ec;--blue:#2563eb;--green:#16803c;--red:#c62828;--amber:#b76e00}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}main{max-width:820px;margin:auto;padding:14px 12px 40px}.top{padding:10px 4px 17px}.top h1{margin:0 0 6px;font-size:22px}.top p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0;box-shadow:0 2px 8px #0b17260a}.card h2{font-size:17px;margin:0 0 12px}.upload{display:block;border:1.5px dashed #aebccd;border-radius:12px;padding:16px;text-align:center;background:#f9fbfd;color:#34445a;cursor:pointer;position:relative;min-height:74px;touch-action:manipulation}.upload input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;z-index:2;cursor:pointer;font-size:16px}.upload strong{display:block;margin-bottom:5px}.filemeta{font-size:13px;color:var(--muted);margin-top:10px;overflow-wrap:anywhere}.status{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px;font-weight:600}.dot{width:11px;height:11px;border-radius:50%;background:#9aa8b7;flex:none}.dot.ok{background:#1b9c55}.dot.err{background:#d33939}.dot.busy{background:#e3a323}.progress{height:8px;border-radius:8px;background:#e8edf3;overflow:hidden;margin:9px 0}.bar{height:100%;width:0;background:var(--blue);transition:width .15s}.small{font-size:12px;color:var(--muted)}button{border:0;border-radius:12px;padding:13px 16px;font-size:15px;font-weight:650;cursor:pointer;background:var(--blue);color:white;width:100%;margin-top:10px}button.secondary{background:#e9eef5;color:#26374e}button.cancel{background:#c62828;margin-top:7px}button.cancel.hidden{display:none!important}button:disabled{opacity:.5;cursor:not-allowed}input[type=text],input[type=number]{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font-size:16px}label.field{display:block;font-size:13px;color:#536276;margin:10px 0}label.field input{margin-top:5px}.results{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;background:#f7f9fb;border-radius:10px;padding:12px;max-height:420px;overflow:auto;margin-top:10px}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.chip{font-size:12px;padding:5px 9px;border-radius:20px;background:#eef2f7;color:#435267}.chip.weld{background:#fff1d4;color:#8a5200}.chip.connect{background:#d9f7e5;color:#176534}.chip.match{outline:2px solid #2563eb}.foot{font-size:12px;color:var(--muted);line-height:1.5}.hidden{display:none!important}.badge{display:inline-block;border-radius:18px;padding:3px 9px;font-size:12px;font-weight:700;background:#eaf0f7;color:#44566b}.badge.weld{background:#fff1d4;color:#8a5200}.badge.connect{background:#d9f7e5;color:#176534}.summarybox{padding:12px;border-radius:10px;background:#f1f5f9;margin-top:10px}.resultrow{border-bottom:1px solid #e1e7ef;padding:9px 0}.resultrow:last-child{border-bottom:0}.label{color:var(--muted);font-size:12px}.batch-head{display:grid;grid-template-columns:minmax(0,1fr) 78px 92px 40px;gap:8px;font-size:12px;color:var(--muted);font-weight:700;margin:10px 0 4px}.batch-row{display:grid;grid-template-columns:minmax(0,1fr) 78px 92px 40px;gap:8px;align-items:center;margin:7px 0}.batch-head span:nth-child(3){text-align:center}.batch-head span:nth-child(4){text-align:center}.batch-row input{min-width:0}.batch-actions{display:flex;gap:8px}.batch-actions button{flex:1}.batch-row .qtyinput{width:100%}.batch-row .inline-result{width:100%;justify-self:center;white-space:nowrap}.batch-row .remove-row{min-width:0}.inline-result{font-size:11px;font-weight:700;text-align:center;padding:5px 2px;border-radius:8px;background:#eef2f7;color:#64748b;min-width:0}.inline-result.good{background:#d9f7e5;color:#176534}.inline-result.bad{background:#ffe1e1;color:#a52020}@media(max-width:480px){.batch-head,.batch-row{grid-template-columns:minmax(0,1fr) 58px 76px 32px;gap:4px}.batch-row input{padding:10px 7px;font-size:15px}}.evidence{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#f8fafc}.evidence img{width:100%;height:auto;border:1px solid #cbd5e1;background:white;border-radius:6px}.evidence pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#fff;padding:8px;border-radius:6px;max-height:140px;overflow:auto}.chip{border:0;width:auto;margin:0;cursor:pointer}.evidence h3{font-size:14px;margin:12px 0 6px}.big{font-size:22px;font-weight:800}.good{color:var(--green)}.bad{color:var(--red)}
 </style></head><body><main>
-<header class="top"><h1>現品票・図面 数量照合（試作）</h1><p>品目コード・現品票数量は手入力。MATERIAL分類ごとに探索位置を切り替え、図面右下のMATERIAL欄を分類し、罫線とQTYの両方を使って部品表候補を絞り、部分OCRします。</p></header>
+<header class="top"><h1>現品票・図面 数量照合（試作）</h1><p>品目コード・現品票数量は手入力。MATERIAL分類ごとに探索位置を切り替え、図面右下のMATERIAL欄を分類し、罫線・QTY・品番・品名・部品名を組み合わせて部品表候補を絞り、部分OCRします。</p></header>
 <section class="card"><h2>① 配管図PDF</h2><label class="upload"><strong>PDF図面を選択</strong><span class="small">PDFを端末内で解析します</span><input id="pdfFile" type="file" accept="application/pdf"></label><div id="pdfStatus" class="status"><span class="dot"></span><span>PDF未選択</span></div><div id="pdfMeta" class="filemeta"></div><div class="field"><strong>照合する品目（コードと納入数）</strong><div class="batch-head"><span>品目コード</span><span>納入数</span><span>判定</span><span>削除</span></div><div id="itemRows"></div><div class="batch-actions"><button id="addItem" type="button" class="secondary">＋ 品目追加</button></div><p class="small">最初に5品目分の入力欄があります。必要に応じて追加できます。</p></div><label class="field"><input id="deepScan" type="checkbox"> 精密検索（部品表で見つからない場合に図面全体もOCR・時間がかかります）</label><button id="analyzePdf" disabled>高速解析・数量照合</button><button id="cancelPdf" class="cancel hidden" type="button">解析を中止</button><div class="progress hidden" id="progress"><div class="bar" id="progressBar"></div></div><div id="progressText" class="small"></div><div id="pdfPages" class="chips"></div><div id="evidence" class="evidence hidden" aria-live="polite"></div><div id="pdfResults" class="results hidden"></div></section>
 <section class="card"><h2>③ 解析ルール（試作）</h2><div class="results">ページの分類ラベルをタップすると、MATERIAL欄・部品表の切り出し画像とOCR原文を確認できます。部品表は狭い範囲を優先し、品目コードが抽出できない場合に範囲を広げます。
 WELD：右下周辺のQTY文字・罫線から部品表を探索
 CONNECT：上部（左上も含む）のQTY文字・罫線から部品表を探索
 分類不明：MATERIAL欄を再拡大して確認し、それでも不明なら右上・右下の両方をOCR
 高速モードでは図面全体OCRを省略します（精密検索を選ぶと追加）。
-QTYがある表を優先し、BEND/LENGTHなどの寸法表は除外候補にします。同じ行の品目コードと数量を対応付け、曖昧な場合は数量未確認。
+QTY、品番、品名、SOCKET、ELBOW、TEEなどの特徴を組み合わせ、BEND/LENGTHなどの寸法表は優先度を下げます。同じ行の品目コードと数量を対応付け、曖昧な場合は数量未確認。
 同じPDFの再照合は解析結果を再利用します。※この版は数量の自動確定を保証しません。</div></section><p class="foot">試作版です。数量は部品表の同一行から読み取れた場合のみ判定します。OCRの誤認識があるため、必ず原図で確認してください。</p></main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script><script>
 const $=id=>document.getElementById(id);
@@ -103,30 +103,40 @@ async function findTableRegions(page,area){
   return picked;
  }finally{c.width=c.height=0;}
 }
-// QTY/Q’TYをPDF文字レイヤーから探し、罫線候補を採点する。
-function qtyWords(text){return /(?:Q\s*['’`]?\s*T\s*Y|QUANTITY|数量)/i.test(text||'');}
-function negativeTable(text){return /(?:BEND|LENGTH|PIPE\s*R|\bX\s*[| ]\s*Y\s*[| ]\s*Z\b)/i.test(text||'');}
-function nativeQtyRegions(content,page,area){
+// 部品表の特徴：数量見出し、品番・品名見出し、部品名、コード、罫線を組み合わせる。
+function qtyWords(text){return /(?:Q\\s*['’`.,-]?\\s*T\\s*Y|QUANTITY|数量)/i.test(text||'');}
+function partHeaders(text){return /(?:PART\\s*(?:NO\\.?|NUMBER|NAME)|DESCRIPTION|品番|品名|品目コード)/i.test(text||'');}
+function partNames(text){return /(?:SOCKET|ELBOW|ELBOWS|TEE|FLANGE|REDUCER|COUPLING|FITTING|BLOW|PIPE)/i.test(text||'');}
+function negativeTable(text){return /(?:BEND|LENGTH|PIPE\\s*R|\\bX\\s*[| ]\\s*Y\\s*[| ]\\s*Z\\b)/i.test(text||'');}
+function codeCount(text){return ([...String(text||'').matchAll(/\\b\\d{4,5}\\s*[-–—]\\s*\\d{4,6}\\b/g)]).length;}
+function tableFeatures(text){
+ const qty=qtyWords(text),headers=partHeaders(text),names=partNames(text),codes=codeCount(text),dimension=negativeTable(text);
+ const score=(qty?7:0)+(headers?5:0)+(names?4:0)+Math.min(codes,3)*3-(dimension?9:0);
+ return {qty,headers,names,codes,dimension,score,valid:(qty||headers||names)&&!((dimension)&&!qty&&!headers)&&score>=5};
+}
+function nativeAnchorRegions(content,page,area){
  const v=page.getViewport({scale:1}),out=[];
  for(const it of content.items){
-  const t=String(it.str||'');if(!qtyWords(t))continue;
+  const t=String(it.str||'');
+  if(!qtyWords(t)&&!partHeaders(t)&&!partNames(t))continue;
   const x=it.transform[4]/v.width,y=1-it.transform[5]/v.height;
-  if(area==='upper'&&y>.53||area==='lower'&&y<.56)continue;
-  const left=Math.max(.005,x-(area==='upper'?.28:.28));
-  const top=Math.max(.005,y-(area==='upper'?.075:.13));
-  const width=Math.min(.99-left,area==='upper'?.49:.55),height=Math.min(.99-top,area==='upper'?.22:.25);
-  out.push({crop:[left,top,width,height],score:100,mode:'PDF文字QTY検出'});
+  if(area==='upper'&&y>.54||area==='lower'&&y<.54)continue;
+  // 見出しを含む表の左右全体を切り出す。左端の数量欄を欠かさない。
+  const left=Math.max(.005,x-.24),top=Math.max(.005,y-.07);
+  const width=Math.min(.99-left,.50),height=Math.min(.99-top,.23);
+  const anchor=qtyWords(t)?'QTY':partHeaders(t)?'品番・品名':'部品名';
+  out.push({crop:[left,top,width,height],score:anchor==='QTY'?30:15,mode:'PDF文字 '+anchor+' 検出'});
  }
- return out.slice(0,3);
+ return out.slice(0,5);
 }
 async function rankTableAttempts(page,area,content){
- const native=nativeQtyRegions(content,page,area);
+ const native=nativeAnchorRegions(content,page,area);
  const detected=await findTableRegions(page,area);
  const candidates=[...native,...detected.map(d=>({...d,mode:'罫線候補'})),{crop:TABLE_FALLBACK[area],score:0,mode:'既知位置'}];
  const unique=[];
- for(const c of candidates){if(unique.some(q=>Math.abs(q.crop[0]-c.crop[0])<.035&&Math.abs(q.crop[1]-c.crop[1])<.035))continue;unique.push(c);}
- // PDFにQTYがある場合は最初にそこを試す。OCRが必要な候補は最大3件。
- return unique.slice(0,Math.max(3,native.length+2));
+ for(const c of candidates){if(unique.some(q=>Math.abs(q.crop[0]-c.crop[0])<.025&&Math.abs(q.crop[1]-c.crop[1])<.025))continue;unique.push(c);}
+ // 罫線だけの候補も残すが、文字アンカーの候補を優先。
+ return unique.slice(0,Math.max(5,native.length+2));
 }
 // CONNECT部品表は図面の左上に配置されるケースもある。
 const TABLE_FALLBACK={upper:[.02,.07,.37,.30],lower:[.48,.73,.49,.24]};
@@ -223,14 +233,14 @@ $('analyzePdf').onclick=async()=>{
     for(const attempt of attempts){
      if(cancelRequested)break;
      const t=await recognizeRegion(page,attempt.crop,4.4,'6');
-     const hasQty=qtyWords(t)||attempt.mode==='PDF文字QTY検出';
-     const bad=negativeTable(t);
+     const features=tableFeatures(t);
      const parsed=parseTable(t,kind,n);
-     const score=(hasQty?8:0)+(parsed.length?5:0)-(bad?10:0)+(attempt.mode==='PDF文字QTY検出'?2:0);
-     tableEvidence.push({area,raw:t,crop:attempt.crop,mode:attempt.mode+' / QTY '+(hasQty?'検出':'未検出')+' / '+(bad?'寸法表の疑い':'候補')});
-     // QTYと品目コードが同じ候補にあり、寸法表でない場合だけ数量候補として採用。
-     if(hasQty&&!bad&&parsed.length&&score>bestScore){best=parsed;bestScore=score;}
-     if(best.length&&score>=13)break;
+     const score=features.score+(parsed.length?6:0);
+     const markers=[features.qty?'QTY':'',features.headers?'品番/品名':'',features.names?'部品名':'',features.codes?'コード'+features.codes+'件':'',features.dimension?'寸法表の疑い':''].filter(Boolean).join('・')||'特徴未検出';
+     tableEvidence.push({area,raw:t,crop:attempt.crop,mode:attempt.mode+' / '+markers+' / 評価'+score});
+     // 複数の部品表特徴がある候補のみ採用。数量が曖昧なら未確認のまま。
+     if(features.valid&&parsed.length&&score>bestScore){best=parsed;bestScore=score;}
+     if(best.length&&score>=18)break;
     }
     rows.push(...best);
     // 位置検出が外れた場合でも「該当なし」を断定しない。
