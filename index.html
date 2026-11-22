@@ -3,16 +3,18 @@
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#162334;--muted:#64748b;--line:#dbe3ec;--blue:#2563eb;--green:#16803c;--red:#c62828;--amber:#b76e00}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}main{max-width:820px;margin:auto;padding:14px 12px 40px}.top{padding:10px 4px 17px}.top h1{margin:0 0 6px;font-size:22px}.top p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0;box-shadow:0 2px 8px #0b17260a}.card h2{font-size:17px;margin:0 0 12px}.upload{display:block;border:1.5px dashed #aebccd;border-radius:12px;padding:16px;text-align:center;background:#f9fbfd;color:#34445a;cursor:pointer;position:relative;min-height:74px;touch-action:manipulation}.upload input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;z-index:2;cursor:pointer;font-size:16px}.upload strong{display:block;margin-bottom:5px}.filemeta{font-size:13px;color:var(--muted);margin-top:10px;overflow-wrap:anywhere}.status{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px;font-weight:600}.dot{width:11px;height:11px;border-radius:50%;background:#9aa8b7;flex:none}.dot.ok{background:#1b9c55}.dot.err{background:#d33939}.dot.busy{background:#e3a323}.progress{height:8px;border-radius:8px;background:#e8edf3;overflow:hidden;margin:9px 0}.bar{height:100%;width:0;background:var(--blue);transition:width .15s}.small{font-size:12px;color:var(--muted)}button{border:0;border-radius:12px;padding:13px 16px;font-size:15px;font-weight:650;cursor:pointer;background:var(--blue);color:white;width:100%;margin-top:10px}button.secondary{background:#e9eef5;color:#26374e}button.cancel{background:#c62828;margin-top:7px}button.cancel.hidden{display:none!important}button:disabled{opacity:.5;cursor:not-allowed}input[type=text],input[type=number]{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font-size:16px}label.field{display:block;font-size:13px;color:#536276;margin:10px 0}label.field input{margin-top:5px}.results{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;background:#f7f9fb;border-radius:10px;padding:12px;max-height:420px;overflow:auto;margin-top:10px}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.chip{font-size:12px;padding:5px 9px;border-radius:20px;background:#eef2f7;color:#435267}.chip.weld{background:#fff1d4;color:#8a5200}.chip.connect{background:#d9f7e5;color:#176534}.chip.match{outline:2px solid #2563eb}.foot{font-size:12px;color:var(--muted);line-height:1.5}.hidden{display:none!important}.badge{display:inline-block;border-radius:18px;padding:3px 9px;font-size:12px;font-weight:700;background:#eaf0f7;color:#44566b}.badge.weld{background:#fff1d4;color:#8a5200}.badge.connect{background:#d9f7e5;color:#176534}.summarybox{padding:12px;border-radius:10px;background:#f1f5f9;margin-top:10px}.resultrow{border-bottom:1px solid #e1e7ef;padding:9px 0}.resultrow:last-child{border-bottom:0}.label{color:var(--muted);font-size:12px}.batch-head{display:grid;grid-template-columns:minmax(0,1fr) 78px 92px 40px;gap:8px;font-size:12px;color:var(--muted);font-weight:700;margin:10px 0 4px}.batch-row{display:grid;grid-template-columns:minmax(0,1fr) 78px 92px 40px;gap:8px;align-items:center;margin:7px 0}.batch-head span:nth-child(3){text-align:center}.batch-head span:nth-child(4){text-align:center}.batch-row input{min-width:0}.batch-actions{display:flex;gap:8px}.batch-actions button{flex:1}.batch-row .qtyinput{width:100%}.batch-row .inline-result{width:100%;justify-self:center;white-space:nowrap}.batch-row .remove-row{min-width:0}.inline-result{font-size:11px;font-weight:700;text-align:center;padding:5px 2px;border-radius:8px;background:#eef2f7;color:#64748b;min-width:0}.inline-result.good{background:#d9f7e5;color:#176534}.inline-result.bad{background:#ffe1e1;color:#a52020}@media(max-width:480px){.batch-head,.batch-row{grid-template-columns:minmax(0,1fr) 58px 76px 32px;gap:4px}.batch-row input{padding:10px 7px;font-size:15px}}.big{font-size:22px;font-weight:800}.good{color:var(--green)}.bad{color:var(--red)}
 </style></head><body><main>
-<header class="top"><h1>現品票・図面 数量照合（試作）</h1><p>品目コード・現品票数量は手入力。MATERIAL分類ごとに探索位置を切り替え、PDFの文字データと画像OCRから品目コードと部品表の数量を探します。</p></header>
-<section class="card"><h2>① 配管図PDF</h2><label class="upload"><strong>PDF図面を選択</strong><span class="small">PDFを端末内で解析します</span><input id="pdfFile" type="file" accept="application/pdf"></label><div id="pdfStatus" class="status"><span class="dot"></span><span>PDF未選択</span></div><div id="pdfMeta" class="filemeta"></div><div class="field"><strong>照合する品目（コードと納入数）</strong><div class="batch-head"><span>品目コード</span><span>納入数</span><span>判定</span><span>削除</span></div><div id="itemRows"></div><div class="batch-actions"><button id="addItem" type="button" class="secondary">＋ 品目追加</button></div><p class="small">最初に5品目分の入力欄があります。必要に応じて追加できます。</p></div><button id="analyzePdf" disabled>PDFを解析・品目コードを検索</button><button id="cancelPdf" class="cancel hidden" type="button">解析を中止</button><div class="progress hidden" id="progress"><div class="bar" id="progressBar"></div></div><div id="progressText" class="small"></div><div id="pdfPages" class="chips"></div><div id="pdfResults" class="results hidden"></div></section>
-<section class="card"><h2>③ 解析ルール（試作）</h2><div class="results">WELD：図面下部の部品表を優先検索
-CONNECT：図面上部を優先検索
-その他・分類不明：ページ全体を検索
-優先領域で見つからなければ全体へ範囲を拡大
-画像PDF：右下（WELD）・右上（CONNECT）の部品表を拡大OCR。品目コードと数量が同じ行で確認できた場合のみ数量判定</div></section><p class="foot">試作版です。数量は部品表の同一行から読み取れた場合のみ判定します。OCRの誤認識があるため、必ず原図で確認してください。</p></main>
+<header class="top"><h1>現品票・図面 数量照合（試作）</h1><p>品目コード・現品票数量は手入力。MATERIAL分類ごとに探索位置を切り替え、MATERIALに応じて右上・右下の部品表だけを優先OCRします。</p></header>
+<section class="card"><h2>① 配管図PDF</h2><label class="upload"><strong>PDF図面を選択</strong><span class="small">PDFを端末内で解析します</span><input id="pdfFile" type="file" accept="application/pdf"></label><div id="pdfStatus" class="status"><span class="dot"></span><span>PDF未選択</span></div><div id="pdfMeta" class="filemeta"></div><div class="field"><strong>照合する品目（コードと納入数）</strong><div class="batch-head"><span>品目コード</span><span>納入数</span><span>判定</span><span>削除</span></div><div id="itemRows"></div><div class="batch-actions"><button id="addItem" type="button" class="secondary">＋ 品目追加</button></div><p class="small">最初に5品目分の入力欄があります。必要に応じて追加できます。</p></div><label class="field"><input id="deepScan" type="checkbox"> 精密検索（部品表で見つからない場合に図面全体もOCR・時間がかかります）</label><button id="analyzePdf" disabled>高速解析・数量照合</button><button id="cancelPdf" class="cancel hidden" type="button">解析を中止</button><div class="progress hidden" id="progress"><div class="bar" id="progressBar"></div></div><div id="progressText" class="small"></div><div id="pdfPages" class="chips"></div><div id="pdfResults" class="results hidden"></div></section>
+<section class="card"><h2>③ 解析ルール（試作）</h2><div class="results">WELD：右下の部品表を優先OCR
+CONNECT：右上の部品表を優先OCR
+分類不明：右上・右下の両方をOCR
+高速モードでは図面全体OCRを省略します（精密検索を選ぶと追加）。
+同じ行の品目コードと数量を対応付け、曖昧な場合は数量未確認。
+同じPDFの再照合は解析結果を再利用します。</div></section><p class="foot">試作版です。数量は部品表の同一行から読み取れた場合のみ判定します。OCRの誤認識があるため、必ず原図で確認してください。</p></main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script><script>
 const $=id=>document.getElementById(id);
-let pdfFile=null,cancelRequested=false,loadingTask=null,ocrWorker=null;
+let pdfFile=null,cancelRequested=false,ocrWorker=null;
+const cache=new Map();
 const status=(msg,type='')=>{$('pdfStatus').innerHTML='<span class="dot '+type+'"></span><span>'+escapeHtml(msg)+'</span>';};
 const bytes=n=>n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(2)+' MB';
 const norm=s=>String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
@@ -22,97 +24,96 @@ function getItems(){return [...document.querySelectorAll('.batch-row')].map(row=
 function setBadge(row,text,kind=''){const b=row.querySelector('.inline-result');b.textContent=text;b.className='inline-result '+kind;}
 $('addItem').onclick=appendItemRow;for(let i=0;i<5;i++)appendItemRow();
 $('pdfFile').addEventListener('change',e=>{const f=e.target.files?.[0];if(!f)return;pdfFile=f;$('analyzePdf').disabled=false;$('pdfPages').innerHTML='';$('pdfResults').classList.add('hidden');$('pdfMeta').textContent='ファイル：'+f.name+' / '+bytes(f.size);status('PDFを選択しました','ok');e.target.value='';});
-$('cancelPdf').onclick=()=>{cancelRequested=true;status('現在のページを処理後に中止します','busy');};
-function codeInText(code,text){const target=norm(code);if(!target)return false;const lines=String(text||'').split(/\n/);if(lines.some(l=>norm(l).includes(target)))return true;
- // OCRがコードの途中に改行を入れることがあるため、隣接行だけ連結する
- for(let i=0;i<lines.length-1;i++){if(norm(lines[i]+' '+lines[i+1]).includes(target))return true;}return false;}
-function detectType(text){if(/\bWELD\b/i.test(text))return 'WELD';if(/\bCONNECT\b/i.test(text))return 'CONNECT';return '不明';}
-async function ensureWorker(){if(!window.Tesseract)throw new Error('OCRライブラリを読み込めません。インターネット接続を確認してください。');if(!ocrWorker){ocrWorker=await Tesseract.createWorker('eng',1,{logger:m=>{if(m.status==='recognizing text'&&m.progress!==undefined)$('progressText').textContent='画像の文字認識 '+Math.round(m.progress*100)+'%';}});await ocrWorker.setParameters({tessedit_pageseg_mode:'11',preserve_interword_spaces:'1'});}return ocrWorker;}
-async function recognizeRegion(page,region,psm='6'){
- const viewport=page.getViewport({scale:2.8});const c=document.createElement('canvas');
+$('cancelPdf').onclick=()=>{cancelRequested=true;status('現在のOCRが終了したら中止します','busy');};
+function codeInText(code,text){const target=norm(code);if(!target)return false;const lines=String(text||'').split(/\n/);return lines.some((l,i)=>norm(l).includes(target)||(i+1<lines.length&&norm(l+lines[i+1]).includes(target)));}
+function detectType(text){const s=String(text||'').toUpperCase();if(/\bWELD\b/.test(s))return 'WELD';if(/\bCONNECT\b/.test(s))return 'CONNECT';return '不明';}
+async function ensureWorker(){if(!window.Tesseract)throw new Error('OCRライブラリを読み込めません。ネット接続を確認してください。');if(!ocrWorker){ocrWorker=await Tesseract.createWorker('eng',1,{logger:m=>{if(m.status==='recognizing text'&&m.progress!==undefined)$('progressText').textContent='文字認識 '+Math.round(m.progress*100)+'%';}});await ocrWorker.setParameters({tessedit_pageseg_mode:'6',preserve_interword_spaces:'1'});}return ocrWorker;}
+// Canvasは必要な領域だけを描画し、全ページを高解像度で保持しない。
+async function recognizeRegion(page,region,scale=3,psm='6'){
+ const viewport=page.getViewport({scale});const canvas=document.createElement('canvas');
  const x=Math.floor(viewport.width*region[0]),y=Math.floor(viewport.height*region[1]);
- c.width=Math.max(1,Math.floor(viewport.width*region[2]));c.height=Math.max(1,Math.floor(viewport.height*region[3]));
- const ctx=c.getContext('2d',{alpha:false});ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);
- const transform=[1,0,0,1,-x,-y];
- await page.render({canvasContext:ctx,viewport,transform}).promise;
+ canvas.width=Math.max(1,Math.floor(viewport.width*region[2]));canvas.height=Math.max(1,Math.floor(viewport.height*region[3]));
+ const ctx=canvas.getContext('2d',{alpha:false});ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+ try{await page.render({canvasContext:ctx,viewport,transform:[1,0,0,1,-x,-y]}).promise;
  const worker=await ensureWorker();await worker.setParameters({tessedit_pageseg_mode:psm,preserve_interword_spaces:'1'});
- const r=await worker.recognize(c);c.width=0;c.height=0;return r.data.text||'';
+ const r=await worker.recognize(canvas);return r.data.text||'';
+ }finally{canvas.width=0;canvas.height=0;}
 }
-async function recognizePage(page){return recognizeRegion(page,[0,0,1,1],'11');}
-// 数量を捏造しないため、部品表の「同じ行」にコードと独立した数量がある場合のみ採用。
-// OCRの行崩れ、同一品目の複数行、曖昧な数値は数量未確認とする。
-function extractTableRows(text,items){
+const REGIONS={material:[.81,.80,.18,.19],upper:[.40,.09,.59,.25],lower:[.48,.74,.51,.22],whole:[0,0,1,1]};
+// 部品表の1行内の「品目コード」と「数量」を照合。曖昧な行は判定しない。
+function parseTable(text,kind,page){
  const rows=[];
- for(const raw of text.split(/\r?\n/)){
+ for(const raw of String(text).split(/\r?\n/)){
   const line=raw.trim();if(!line)continue;
-  for(const item of items){
-   const target=norm(item.code);if(!target||!codeInText(item.code,line))continue;
-   const tokens=line.split(/\s{2,}|\t+/).map(x=>x.trim()).filter(Boolean);
-   const qtyCandidates=[];
-   // 表の数量は通常コードとは別の短い数字欄。コード内部の数字を数量として使わない。
-   for(let i=0;i<tokens.length;i++){
-    if(norm(tokens[i]).includes(target))continue;
-    if(/^\d{1,3}$/.test(tokens[i]))qtyCandidates.push(Number(tokens[i]));
-   }
-   // 複数の数字があると、寸法・行番号などと区別できないので確定しない。
-   rows.push({item,line,qty:qtyCandidates.length===1?qtyCandidates[0]:null});
+  const matches=[...line.matchAll(/\b(?:\d[\dOoIl|SsB]{3,5}\s*[-—–]?\s*[\dOoIl|SsB]{4,6})\b/g)];
+  for(const match of matches){
+   const code=norm(match[0].replace(/[Oo]/g,'0').replace(/[Il|]/g,'1').replace(/[Ss]/g,'5').replace(/B/g,'8'));
+   if(code.length<9||code.length>12)continue;
+   const before=line.slice(0,match.index).trim(),after=line.slice(match.index+match[0].length).trim();
+   // CONNECTは数量が品目コードの左、WELDは右にあることが多い。
+   const near=kind==='CONNECT'?before:after;
+   const tokens=near.split(/\s+/).filter(Boolean);
+   const nums=tokens.filter(t=>/^\d{1,2}$/.test(t)).map(Number).filter(n=>n>0&&n<=99);
+   const qty=nums.length===1?nums[0]:null;
+   rows.push({code,qty,page,kind,line});
   }
  }
  return rows;
 }
+function fileKey(file,deep){return [file.name,file.size,file.lastModified,deep?'deep':'fast'].join('|');}
+function evaluate(items,pages,fromCache){
+ const output=[];let detected=0;
+ for(const item of items){
+  const target=norm(item.code);const found=pages.filter(p=>p.rows.some(r=>r.code===target)||codeInText(item.code,p.text));
+  if(!found.length){setBadge(item.row,'該当なし','bad');output.push(item.code+'：部品表・検索範囲で未検出'+(pages[0]?.deep?'':'（必要なら精密検索を試してください）'));continue;}
+  detected++;
+  const candidates=pages.flatMap(p=>p.rows.filter(r=>r.code===target));
+  const perPage=new Map();for(const c of candidates){if(!perPage.has(c.page))perPage.set(c.page,[]);perPage.get(c.page).push(c);}
+  // 行の重複やOCR不明値は必ず未確認とする。
+  const certain=candidates.length>0&&[...perPage.values()].every(arr=>arr.length===1&&arr[0].qty!==null);
+  const evidence=[...new Set(found.map(p=>p.n))].join('、');
+  if(certain){const total=candidates.reduce((s,c)=>s+c.qty,0);
+   if(item.qty===''){setBadge(item.row,'数量入力待ち');output.push(item.code+'：図面数量候補 '+total+' / 納入数未入力 / '+evidence+'頁');}
+   else{const ok=total===Number(item.qty);setBadge(item.row,ok?'一致候補':'不一致候補',ok?'good':'bad');output.push(item.code+`：図面数量候補 ${total} / 納入数 ${item.qty} → ${ok?'一致候補':'不一致候補'} / ${evidence}頁`);}
+  }else{setBadge(item.row,'数量未確認');output.push(item.code+'：コード検出 '+evidence+'頁 / 部品表で数量を確定できず'+(candidates.length?'（候補 '+candidates.length+'行）':''));}
+ }
+ $('pdfResults').textContent=`解析完了：${pages.length}ページ${fromCache?'（保存済み結果を再利用）':''}\n品目コード検出：${detected}/${items.length}品目\n\n`+output.join('\n')+'\n\n※OCR数量は暫定値です。必ず原図の部品表で確認してください。';
+ status(`解析完了：${pages.length}ページ / コード検出 ${detected}品目`,'ok');$('progressText').textContent=fromCache?'キャッシュから再照合しました':'解析完了';
+}
 $('analyzePdf').onclick=async()=>{
  if(!pdfFile)return;const items=getItems();if(!items.length){status('品目コードを入力してください','err');return;}
- items.forEach(x=>setBadge(x.row,'検索中'));cancelRequested=false;$('analyzePdf').disabled=true;$('cancelPdf').classList.remove('hidden');$('progress').classList.remove('hidden');$('progressBar').style.width='0%';$('pdfPages').innerHTML='';$('pdfResults').classList.remove('hidden');$('pdfResults').textContent='PDFを読み込んでいます…';status('解析中…','busy');
- const hits=new Map(items.map(x=>[x,[]]));const tableMatches=new Map(items.map(x=>[x,[]]));let scanned=0,ocrCount=0;
+ const deep=$('deepScan').checked,key=fileKey(pdfFile,deep);
+ items.forEach(x=>setBadge(x.row,'検索中'));cancelRequested=false;$('analyzePdf').disabled=true;$('cancelPdf').classList.remove('hidden');$('progress').classList.remove('hidden');$('progressBar').style.width='0%';$('pdfPages').innerHTML='';$('pdfResults').classList.remove('hidden');$('pdfResults').textContent='解析準備中…';status('解析中…','busy');
  try{
-  if(!window.pdfjsLib)throw new Error('PDFライブラリを読み込めません。');pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  loadingTask=pdfjsLib.getDocument({data:await pdfFile.arrayBuffer()});const pdf=await loadingTask.promise;
+  if(cache.has(key)){const pages=cache.get(key);for(const p of pages){const chip=document.createElement('span');chip.className='chip';chip.textContent=p.n+'頁 '+p.type;$('pdfPages').appendChild(chip);} $('progressBar').style.width='100%';evaluate(items,pages,true);return;}
+  if(!window.pdfjsLib)throw new Error('PDFライブラリを読み込めません。');
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const task=pdfjsLib.getDocument({data:await pdfFile.arrayBuffer()});const pdf=await task.promise;const pages=[];
   for(let n=1;n<=pdf.numPages;n++){
-   if(cancelRequested)break;const page=await pdf.getPage(n);const content=await page.getTextContent();const nativeText=content.items.map(x=>x.str||'').join(' ');
-   $('progressText').textContent=`${n}/${pdf.numPages}ページ：右上・右下の部品表をOCR中`;
-   // MATERIALの文字自体も画像のため、両方の部品表を先に読み取る。
-   const upper=await recognizeRegion(page,[.45,.10,.53,.28]);if(cancelRequested)break;
-   const lower=await recognizeRegion(page,[.45,.72,.53,.26]);if(cancelRequested)break;
-   const type=detectType(nativeText+' '+upper+' '+lower);
-   const tableTexts=type==='WELD'?[lower]:type==='CONNECT'?[upper]:[upper,lower];
-   for(const tableText of tableTexts){
-    for(const match of extractTableRows(tableText,items))tableMatches.get(match.item).push({...match,page:n});
+   if(cancelRequested)break;
+   const page=await pdf.getPage(n);const content=await page.getTextContent();const native=content.items.map(x=>x.str||'').join(' ');
+   $('progressText').textContent=`${n}/${pdf.numPages}頁：MATERIALを判別中`;
+   let type=detectType(native);
+   if(type==='不明')type=detectType(await recognizeRegion(page,REGIONS.material,2.6));
+   if(cancelRequested)break;
+   const areas=type==='WELD'?['lower']:type==='CONNECT'?['upper']:['upper','lower'];
+   let text=native,rows=[];
+   for(const area of areas){if(cancelRequested)break;
+    $('progressText').textContent=`${n}/${pdf.numPages}頁：${area==='upper'?'右上':'右下'}の部品表をOCR中`;
+    const t=await recognizeRegion(page,REGIONS[area],3.5);text+='\n'+t;rows.push(...parseTable(t,area==='upper'?'CONNECT':'WELD',n));
    }
-   let text=nativeText+'\n'+upper+'\n'+lower;let usedOCR=true;ocrCount++;
-   if(items.some(x=>!codeInText(x.code,text))){
-    $('progressText').textContent=`${n}/${pdf.numPages}ページ：図面全体をOCR中`;
-    text+='\n'+await recognizePage(page);
-   }
-   for(const x of items)if(codeInText(x.code,text))hits.get(x).push(n);
-   scanned=n;const chip=document.createElement('span');chip.className='chip';chip.textContent=n+'頁 OCR '+type;$('pdfPages').appendChild(chip);
-   for(const x of items){const found=hits.get(x);setBadge(x.row,found.length?'数量確認中':'検索中',found.length?'good':'');}
-   $('progressBar').style.width=(n/pdf.numPages*100).toFixed(1)+'%';$('progressText').textContent=`${n}/${pdf.numPages}ページ完了（OCR ${ocrCount}ページ）`;
-   await new Promise(resolve=>setTimeout(resolve,0));
+   if(cancelRequested)break;
+   // 高速モードでは全ページOCRをしない。精密検索でのみ実行する。
+   if(deep){$('progressText').textContent=`${n}/${pdf.numPages}頁：全体を追加OCR中`;text+='\n'+await recognizeRegion(page,REGIONS.whole,2.3,'11');}
+   pages.push({n,type,text,rows,deep});
+   const chip=document.createElement('span');chip.className='chip '+(type==='WELD'?'weld':type==='CONNECT'?'connect':'');chip.textContent=n+'頁 '+type;$('pdfPages').appendChild(chip);
+   $('progressBar').style.width=(n/pdf.numPages*100).toFixed(1)+'%';$('progressText').textContent=`${n}/${pdf.numPages}ページ完了`;
+   await new Promise(r=>setTimeout(r,0));
   }
   if(cancelRequested){status('解析を中止しました');$('pdfResults').textContent='解析を中止しました。';items.forEach(x=>setBadge(x.row,'未判定'));return;}
-  let count=0;const lines=[];
-  for(const x of items){
-   const pages=hits.get(x),matches=tableMatches.get(x);
-   if(!pages.length){setBadge(x.row,'該当なし','bad');lines.push(x.code+'：コードを検出できませんでした（OCR見落としの可能性あり）');continue;}
-   count++;
-   // 同じ品目コードの部品表が複数ページにあるときはページごとに集計するが、
-   // 1ページ内で重複したり不明な行があれば誤集計を避ける。
-   const distinctPages=new Set(matches.map(m=>m.page));
-   const confident=matches.length>0&&matches.every(m=>m.qty!==null)&&distinctPages.size===matches.length;
-   const entered=Number(x.qty);
-   if(confident&&x.qty!==''&&Number.isFinite(entered)){
-    const total=matches.reduce((a,m)=>a+m.qty,0),ok=total===entered;
-    setBadge(x.row,ok?'一致':'不一致',ok?'good':'bad');
-    lines.push(x.code+`：部品表の数量候補 ${total} / 納入数 ${entered} → ${ok?'一致':'不一致'}（${[...distinctPages].join('、')}ページ）`);
-   }else{
-    setBadge(x.row,'数量未確認','');
-    lines.push(x.code+'：コード検出 '+pages.join('、')+'ページ / 部品表の数量を確定できません'+(matches.length?'（候補 '+matches.length+'行）':''));
-   }
-  }
-  $('pdfMeta').textContent=`ファイル：${pdfFile.name} / ${bytes(pdfFile.size)} / ${pdf.numPages}ページ`;
-  $('pdfResults').textContent=`解析完了：${scanned}ページ（OCR ${ocrCount}ページ）\n品目コード検出：${count}/${items.length}品目\n\n`+lines.join('\n')+'\n\n※OCR数量は暫定値です。必ず原図の部品表で確認してください。';
-  status(`解析完了：${scanned}ページ / コード検出 ${count}品目`,'ok');$('progressText').textContent='解析完了';
+  cache.set(key,pages);$('pdfMeta').textContent=`ファイル：${pdfFile.name} / ${bytes(pdfFile.size)} / ${pdf.numPages}ページ`;
+  evaluate(items,pages,false);
  }catch(e){status('解析エラー','err');$('pdfResults').textContent='解析エラー：'+(e?.message||String(e));items.forEach(x=>setBadge(x.row,'未判定'));}
- finally{$('cancelPdf').classList.add('hidden');$('analyzePdf').disabled=!pdfFile;loadingTask=null;}
+ finally{$('cancelPdf').classList.add('hidden');$('analyzePdf').disabled=!pdfFile;}
 };
 </script></body></html>
