@@ -5,17 +5,17 @@
 </style></head><body><main>
 <header class="top"><h1>現品票・図面 数量照合（試作）</h1><p>品目コード・現品票数量は手入力。MATERIAL分類ごとに探索位置を切り替え、図面右下のMATERIAL欄を拡大して分類し、対応する部品表を優先OCRします。</p></header>
 <section class="card"><h2>① 配管図PDF</h2><label class="upload"><strong>PDF図面を選択</strong><span class="small">PDFを端末内で解析します</span><input id="pdfFile" type="file" accept="application/pdf"></label><div id="pdfStatus" class="status"><span class="dot"></span><span>PDF未選択</span></div><div id="pdfMeta" class="filemeta"></div><div class="field"><strong>照合する品目（コードと納入数）</strong><div class="batch-head"><span>品目コード</span><span>納入数</span><span>判定</span><span>削除</span></div><div id="itemRows"></div><div class="batch-actions"><button id="addItem" type="button" class="secondary">＋ 品目追加</button></div><p class="small">最初に5品目分の入力欄があります。必要に応じて追加できます。</p></div><label class="field"><input id="deepScan" type="checkbox"> 精密検索（部品表で見つからない場合に図面全体もOCR・時間がかかります）</label><button id="analyzePdf" disabled>高速解析・数量照合</button><button id="cancelPdf" class="cancel hidden" type="button">解析を中止</button><div class="progress hidden" id="progress"><div class="bar" id="progressBar"></div></div><div id="progressText" class="small"></div><div id="pdfPages" class="chips"></div><div id="evidence" class="evidence hidden" aria-live="polite"></div><div id="pdfResults" class="results hidden"></div></section>
-<section class="card"><h2>③ 解析ルール（試作）</h2><div class="results">ページの分類ラベルをタップすると、MATERIAL欄・部品表の切り出し画像とOCR原文を確認できます。
+<section class="card"><h2>③ 解析ルール（試作）</h2><div class="results">ページの分類ラベルをタップすると、MATERIAL欄・部品表の切り出し画像とOCR原文を確認できます。部品表は狭い範囲を優先し、品目コードが抽出できない場合に範囲を広げます。
 WELD：右下の部品表を優先OCR
 CONNECT：右上の部品表を優先OCR
 分類不明：MATERIAL欄を再拡大して確認し、それでも不明なら右上・右下の両方をOCR
 高速モードでは図面全体OCRを省略します（精密検索を選ぶと追加）。
 同じ行の品目コードと数量を対応付け、曖昧な場合は数量未確認。
-同じPDFの再照合は解析結果を再利用します。</div></section><p class="foot">試作版です。数量は部品表の同一行から読み取れた場合のみ判定します。OCRの誤認識があるため、必ず原図で確認してください。</p></main>
+同じPDFの再照合は解析結果を再利用します。※この版は数量の自動確定を保証しません。</div></section><p class="foot">試作版です。数量は部品表の同一行から読み取れた場合のみ判定します。OCRの誤認識があるため、必ず原図で確認してください。</p></main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script><script>
 const $=id=>document.getElementById(id);
 let pdfFile=null,cancelRequested=false,ocrWorker=null,activePdfDoc=null,latestPages=[];
-const cache=new Map();
+const cache=new Map(); // このページを開いている間だけ保持
 const status=(msg,type='')=>{$('pdfStatus').innerHTML='<span class="dot '+type+'"></span><span>'+escapeHtml(msg)+'</span>';};
 const bytes=n=>n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(2)+' MB';
 const norm=s=>String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
@@ -67,7 +67,9 @@ async function recognizeRegion(page,region,scale=3,psm='6'){
  const r=await worker.recognize(canvas);return r.data.text||'';
  }finally{canvas.width=0;canvas.height=0;}
 }
-const REGIONS={material:[.875,.835,.12,.105],upper:[.40,.09,.59,.25],lower:[.48,.74,.51,.22],whole:[0,0,1,1]};
+// 図面の部品表は小さいため、まず狭い範囲を拡大。検出できない時だけ拡張する。
+const REGIONS={material:[.875,.835,.12,.105],upper:[.43,.105,.46,.205],lower:[.52,.755,.43,.155],whole:[0,0,1,1]};
+const FALLBACK_REGIONS={upper:[.35,.075,.63,.30],lower:[.43,.705,.55,.255]};
 // 部品表の1行内の「品目コード」と「数量」を照合。曖昧な行は判定しない。
 function parseTable(text,kind,page){
  const rows=[];
@@ -105,11 +107,11 @@ async function showEvidence(n){
   const page=await activePdfDoc.getPage(n);
   const mat=await evidenceImage(page,p.materialCrop||REGIONS.material);
   const regions=p.tableEvidence||[];
-  const previews=[];for(const r of regions)previews.push({area:r.area,url:await evidenceImage(page,REGIONS[r.area]),raw:r.raw});
+  const previews=[];for(const r of regions)previews.push({area:r.area,url:await evidenceImage(page,r.crop),raw:r.raw,crop:r.crop,mode:r.mode});
   if(!latestPages.includes(p))return;
   el.innerHTML='<strong>'+n+'ページ：'+escapeHtml(p.type)+'</strong><p class="small">画像は実際にOCRへ渡した範囲です。認識文字は補正前の生データです。</p>'+
    '<h3>① MATERIAL欄（分類の根拠）</h3><img alt="MATERIAL欄の切り出し" src="'+mat+'"><p class="small">分類：'+escapeHtml(p.classification)+' / OCR原文：</p><pre>'+escapeHtml(p.materialRaw||'(文字を認識できませんでした)')+'</pre>'+
-   previews.map(r=>'<h3>② '+(r.area==='upper'?'右上':'右下')+'の部品表（数量の根拠）</h3><img alt="部品表の切り出し" src="'+r.url+'"><p class="small">OCR原文：</p><pre>'+escapeHtml(r.raw||'(文字を認識できませんでした)')+'</pre>').join('')+
+   previews.map(r=>'<h3>② '+(r.area==='upper'?'右上':'右下')+'の部品表（数量の根拠・'+escapeHtml(r.mode)+'）</h3><img alt="部品表の切り出し" src="'+r.url+'"><p class="small">切り出し位置：左 '+Math.round(r.crop[0]*100)+'%、上 '+Math.round(r.crop[1]*100)+'%、幅 '+Math.round(r.crop[2]*100)+'%、高さ '+Math.round(r.crop[3]*100)+'%。OCR原文：</p><pre>'+escapeHtml(r.raw||'(文字を認識できませんでした)')+'</pre>').join('')+
    '<h3>③ 抽出した品目コードと数量候補</h3><pre>'+escapeHtml(p.rows.length?p.rows.map(r=>r.code+' / '+(r.qty??'数量未確認')+' / '+r.line).join('\n'):'部品表から行を抽出できませんでした')+'</pre>';
   el.scrollIntoView({behavior:'smooth',block:'nearest'});
  }catch(e){el.textContent='根拠画像の表示に失敗しました：'+(e.message||e);}
@@ -155,7 +157,18 @@ $('analyzePdf').onclick=async()=>{
    let text=native,rows=[],tableEvidence=[];
    for(const area of areas){if(cancelRequested)break;
     $('progressText').textContent=`${n}/${pdf.numPages}頁：${area==='upper'?'右上':'右下'}の部品表をOCR中`;
-    const t=await recognizeRegion(page,REGIONS[area],3.5);text+='\n'+t;tableEvidence.push({area,raw:t});rows.push(...parseTable(t,area==='upper'?'CONNECT':'WELD',n));
+    const kind=area==='upper'?'CONNECT':'WELD';
+     const crop=REGIONS[area];
+     const t=await recognizeRegion(page,crop,4.5,'6');
+     text+='\n'+t;tableEvidence.push({area,raw:t,crop,mode:'優先範囲'});
+     const primary=parseTable(t,kind,n);
+     if(primary.length){rows.push(...primary);}else{
+       // 部品表が少しずれた図面だけ追加OCR。重複カウント防止のため片方の結果だけ使う。
+       const wide=FALLBACK_REGIONS[area];
+       const extra=await recognizeRegion(page,wide,3.5,'11');
+       text+='\n'+extra;tableEvidence.push({area,raw:extra,crop:wide,mode:'拡張範囲'});
+       rows.push(...parseTable(extra,kind,n));
+     }
    }
    if(cancelRequested)break;
    // 高速モードでは全ページOCRをしない。精密検索でのみ実行する。
