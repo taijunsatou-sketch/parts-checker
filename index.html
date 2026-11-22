@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>現品票・図面 数量照合 Ver.1.3</title>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>現品票・図面 数量照合 Ver.1.4</title>
 <style>
 :root{--bg:#f3f6fa;--card:#fff;--ink:#162334;--muted:#64748b;--line:#dbe3ec;--blue:#2563eb;--green:#16803c;--red:#c62828;--amber:#b76e00}*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}main{max-width:820px;margin:auto;padding:14px 12px 40px}.top{padding:10px 4px 17px}.top h1{margin:0 0 6px;font-size:22px}.top p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin:12px 0;box-shadow:0 2px 8px #0b17260a}.card h2{font-size:17px;margin:0 0 12px}.upload{display:block;border:1.5px dashed #aebccd;border-radius:12px;padding:16px;text-align:center;background:#f9fbfd;color:#34445a;cursor:pointer;position:relative;min-height:74px;touch-action:manipulation}.upload input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;z-index:2;cursor:pointer;font-size:16px}.upload strong{display:block;margin-bottom:5px}.filemeta{font-size:13px;color:var(--muted);margin-top:10px;overflow-wrap:anywhere}.status{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:14px;font-weight:600}.dot{width:11px;height:11px;border-radius:50%;background:#9aa8b7;flex:none}.dot.ok{background:#1b9c55}.dot.err{background:#d33939}.dot.busy{background:#e3a323}.progress{height:8px;border-radius:8px;background:#e8edf3;overflow:hidden;margin:9px 0}.bar{height:100%;width:0;background:var(--blue);transition:width .15s}.small{font-size:12px;color:var(--muted)}button{border:0;border-radius:12px;padding:13px 16px;font-size:15px;font-weight:650;cursor:pointer;background:var(--blue);color:white;width:100%;margin-top:10px}button.secondary{background:#e9eef5;color:#26374e}button.cancel{background:#c62828;margin-top:7px}button.cancel.hidden{display:none!important}button:disabled{opacity:.5;cursor:not-allowed}input[type=text],input[type=number]{width:100%;padding:11px;border:1px solid var(--line);border-radius:9px;font-size:16px}label.field{display:block;font-size:13px;color:#536276;margin:10px 0}label.field input{margin-top:5px}.results{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;background:#f7f9fb;border-radius:10px;padding:12px;max-height:420px;overflow:auto;margin-top:10px}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}.chip{font-size:12px;padding:5px 9px;border-radius:20px;background:#eef2f7;color:#435267}.chip.weld{background:#fff1d4;color:#8a5200}.chip.connect{background:#d9f7e5;color:#176534}.chip.match{outline:2px solid #2563eb}.foot{font-size:12px;color:var(--muted);line-height:1.5}.hidden{display:none!important}.badge{display:inline-block;border-radius:18px;padding:3px 9px;font-size:12px;font-weight:700;background:#eaf0f7;color:#44566b}.badge.weld{background:#fff1d4;color:#8a5200}.badge.connect{background:#d9f7e5;color:#176534}.summarybox{padding:12px;border-radius:10px;background:#f1f5f9;margin-top:10px}.resultrow{border-bottom:1px solid #e1e7ef;padding:9px 0}.resultrow:last-child{border-bottom:0}.label{color:var(--muted);font-size:12px}.batch-head{display:grid;grid-template-columns:minmax(0,1fr) 78px 92px 40px;gap:8px;font-size:12px;color:var(--muted);font-weight:700;margin:10px 0 4px}.batch-row{display:grid;grid-template-columns:minmax(0,1fr) 78px 92px 40px;gap:8px;align-items:center;margin:7px 0}.batch-head span:nth-child(3){text-align:center}.batch-head span:nth-child(4){text-align:center}.batch-row input{min-width:0}.batch-actions{display:flex;gap:8px}.batch-actions button{flex:1}.batch-row .qtyinput{width:100%}.batch-row .inline-result{width:100%;justify-self:center;white-space:nowrap}.batch-row .remove-row{min-width:0}.inline-result{font-size:11px;font-weight:700;text-align:center;padding:5px 2px;border-radius:8px;background:#eef2f7;color:#64748b;min-width:0}.inline-result.good{background:#d9f7e5;color:#176534}.inline-result.bad{background:#ffe1e1;color:#a52020}@media(max-width:480px){.batch-head,.batch-row{grid-template-columns:minmax(0,1fr) 58px 76px 32px;gap:4px}.batch-row input{padding:10px 7px;font-size:15px}}.evidence{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#f8fafc}.evidence img{width:100%;height:auto;border:1px solid #cbd5e1;background:white;border-radius:6px}.evidence pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:#fff;padding:8px;border-radius:6px;max-height:140px;overflow:auto}.chip{border:0;width:auto;margin:0;cursor:pointer}.evidence h3{font-size:14px;margin:12px 0 6px}.big{font-size:22px;font-weight:800}.good{color:var(--green)}.bad{color:var(--red)}
 </style></head><body><main>
-<header class="top"><h1>現品票・図面 数量照合 Ver.1.3（罫線構造認識版）</h1><p>品目コード・現品票数量は手入力。MATERIAL分類ごとに探索位置を切り替え、図面右下のMATERIAL欄を分類し、罫線の列数・QTY・品番・品名・部品名を組み合わせて部品表候補を絞り、部分OCRします。</p></header>
+<header class="top"><h1>現品票・図面 数量照合 Ver.1.4（品番分離・部品表切り分け版）</h1><p>品目コード・現品票数量は手入力。MATERIAL分類ごとに探索位置を切り替え、図面右下のMATERIAL欄を分類し、罫線の列数・QTY・品番・品名・部品名を組み合わせて部品表候補を絞り、部分OCRします。</p></header>
 <section class="card"><h2>① 配管図PDF</h2><label class="upload"><strong>PDF図面を選択</strong><span class="small">PDFを端末内で解析します</span><input id="pdfFile" type="file" accept="application/pdf"></label><div id="pdfStatus" class="status"><span class="dot"></span><span>PDF未選択</span></div><div id="pdfMeta" class="filemeta"></div><div class="field"><strong>照合する品目（コードと納入数）</strong><div class="batch-head"><span>品目コード</span><span>納入数</span><span>判定</span><span>削除</span></div><div id="itemRows"></div><div class="batch-actions"><button id="addItem" type="button" class="secondary">＋ 品目追加</button></div><p class="small">最初に5品目分の入力欄があります。必要に応じて追加できます。</p></div><label class="field"><input id="deepScan" type="checkbox"> 精密検索（部品表で見つからない場合に図面全体もOCR・時間がかかります）</label><button id="analyzePdf" disabled>高速解析・数量照合</button><button id="cancelPdf" class="cancel hidden" type="button">解析を中止</button><div class="progress hidden" id="progress"><div class="bar" id="progressBar"></div></div><div id="progressText" class="small"></div><div id="pdfPages" class="chips"></div><div id="evidence" class="evidence hidden" aria-live="polite"></div><div id="pdfResults" class="results hidden"></div></section>
-<section class="card"><h2>③ 解析ルール（試作）</h2><div class="results">ページの分類ラベルをタップすると、MATERIAL欄・部品表の切り出し画像とOCR原文を確認できます。部品表は狭い範囲を優先し、品目コードが抽出できない場合に範囲を広げます。
+<section class="card"><h2>③ 解析ルール（試作）</h2><div class="results">Ver.1.4：品番のハイフン正規化・数量連結候補の分離・寸法表右側の探索を追加。\nページの分類ラベルをタップすると、MATERIAL欄・部品表の切り出し画像とOCR原文を確認できます。部品表は狭い範囲を優先し、品目コードが抽出できない場合に範囲を広げます。
 WELD：右下周辺のQTY文字・罫線から部品表を探索
 CONNECT：上部（左上も含む）のQTY文字・罫線から部品表を探索
 分類不明：MATERIAL欄を再拡大して確認し、それでも不明なら右上・右下の両方をOCR
 高速モードでは図面全体OCRを省略します（精密検索を選ぶと追加）。
-QTY、品番、品名、SOCKET、ELBOW、TEEなどの特徴を組み合わせ、BEND/LENGTHなどの寸法表は優先度を下げます。同じ行の品目コードと数量を対応付け、曖昧な場合は数量未確認。
+QTY、品番、品名、SOCKET、ELBOW、TEEなどの特徴を組み合わせ、BEND/LENGTHなどの寸法表は優先度を下げます。品目コードはハイフンを除去して比較し、連結した数量は候補として分離。列位置を確認できない場合は数量未確認。
 同じPDFの再照合は解析結果を再利用します。※この版は数量の自動確定を保証しません。</div></section><p class="foot">試作版です。数量は部品表の同一行から読み取れた場合のみ判定します。OCRの誤認識があるため、必ず原図で確認してください。</p></main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script><script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script><script>
 const $=id=>document.getElementById(id);
@@ -166,6 +166,8 @@ async function rankTableAttempts(page,area,content){
  const native=nativeAnchorRegions(content,page,area);
  const detected=await findTableRegions(page,area);
  const upperLeft=area==='upper'?[
+ {crop:[.22,.09,.31,.24],score:24,mode:'左上・寸法表右隣の部品表'},
+ {crop:[.25,.12,.29,.19],score:20,mode:'左上・品番表の拡大'},
  {crop:[.005,.06,.38,.23],score:12,mode:'左上・部品表優先'},
  {crop:[.005,.03,.48,.33],score:8,mode:'左上・拡張探索'},
  {crop:[.005,.08,.30,.18],score:6,mode:'左上・小表'}
@@ -184,21 +186,24 @@ async function rankTableAttempts(page,area,content){
 // CONNECT部品表は図面の左上に配置されるケースもある。
 const TABLE_FALLBACK={upper:[.02,.07,.37,.30],lower:[.48,.73,.49,.24]};
 // 部品表の1行内の「品目コード」と「数量」を照合。曖昧な行は判定しない。
-function parseTable(text,kind,page){
- const rows=[];
- for(const raw of String(text).split(/\r?\n/)){
+// OCRの「数量＋品番」連結（例: 107317-01039）を、登録済み品番に基づき分離する。
+// 推測で先頭数字を消さない。数量は行・列が確定できない限り未確認。
+function codeVariants(raw){return norm(String(raw).replace(/[Oo]/g,'0').replace(/[Il|]/g,'1').replace(/[Ss]/g,'5').replace(/B/g,'8'));}
+function parseTable(text,kind,page,targets=[]){
+ const rows=[],seen=new Set();
+ const wanted=[...new Set(targets.map(norm).filter(x=>/^\d{9,12}$/.test(x)))];
+ const lines=String(text||'').split(/\r?\n/);
+ for(const raw of lines){
   const line=raw.trim();if(!line)continue;
-  const matches=[...line.matchAll(/\b(?:\d[\dOoIl|SsB]{3,5}\s*[-—–]?\s*[\dOoIl|SsB]{4,6})\b/g)];
-  for(const match of matches){
-   const code=norm(match[0].replace(/[Oo]/g,'0').replace(/[Il|]/g,'1').replace(/[Ss]/g,'5').replace(/B/g,'8'));
-   if(code.length<9||code.length>12)continue;
-   const before=line.slice(0,match.index).trim(),after=line.slice(match.index+match[0].length).trim();
-   // CONNECTは数量が品目コードの左、WELDは右にあることが多い。
-   const near=kind==='CONNECT'?before:after;
-   const tokens=near.split(/\s+/).filter(Boolean);
-   const nums=tokens.filter(t=>/^\d{1,2}$/.test(t)).map(Number).filter(n=>n>0&&n<=99);
-   const qty=nums.length===1?nums[0]:null;
-   rows.push({code,qty,page,kind,line});
+  const compact=codeVariants(line);
+  for(const code of wanted){
+   // コードの前に1～2桁の数量が連結しても検出。隣接行から数量は取らない。
+   const at=compact.indexOf(code);if(at<0)continue;
+   const key=code+'|'+line;if(seen.has(key))continue;seen.add(key);
+   const near=line.match(/(?:^|[^0-9])([1-9]\d?)\s*(?:0\d{4}[-–—]?\d{5})/);
+   const merged=near&&norm(near[0]).endsWith(code)?Number(near[1]):null;
+   // 連結数量は候補として記録するが、寸法表が混在する場合は確定しない。
+   rows.push({code,qty:null,qtyCandidate:merged,page,kind,line,source:'品番一致・数量未確認'});
   }
  }
  return rows;
@@ -225,7 +230,7 @@ async function showEvidence(n){
   el.innerHTML='<strong>'+n+'ページ：'+escapeHtml(p.type)+'</strong><p class="small">画像は実際にOCRへ渡した範囲です。認識文字は補正前の生データです。</p>'+
    '<h3>① MATERIAL欄（分類の根拠）</h3><img alt="MATERIAL欄の切り出し" src="'+mat+'"><p class="small">分類：'+escapeHtml(p.classification)+' / OCR原文：</p><pre>'+escapeHtml(p.materialRaw||'(文字を認識できませんでした)')+'</pre>'+
    previews.map(r=>'<h3>② '+(r.area==='upper'?'右上':'右下')+'の部品表（数量の根拠・'+escapeHtml(r.mode)+'）</h3><img alt="部品表の切り出し" src="'+r.url+'"><p class="small">切り出し位置：左 '+Math.round(r.crop[0]*100)+'%、上 '+Math.round(r.crop[1]*100)+'%、幅 '+Math.round(r.crop[2]*100)+'%、高さ '+Math.round(r.crop[3]*100)+'%。OCR原文：</p><pre>'+escapeHtml(r.raw||'(文字を認識できませんでした)')+'</pre>').join('')+
-   '<h3>③ 抽出した品目コードと数量候補</h3><pre>'+escapeHtml(p.rows.length?p.rows.map(r=>r.code+' / '+(r.qty??'数量未確認')+' / '+r.line).join('\n'):'部品表から行を抽出できませんでした')+'</pre>';
+   '<h3>③ 抽出した品目コードと数量候補</h3><pre>'+escapeHtml(p.rows.length?p.rows.map(r=>r.code+' / '+(r.qty??'数量未確認')+(r.qtyCandidate?'（連結数字候補 '+r.qtyCandidate+'）':'')+' / '+r.line).join('\n'):'部品表から行を抽出できませんでした')+'</pre>';
   el.scrollIntoView({behavior:'smooth',block:'nearest'});
  }catch(e){el.textContent='根拠画像の表示に失敗しました：'+(e.message||e);}
 }
@@ -278,16 +283,18 @@ $('analyzePdf').onclick=async()=>{
      const t=await recognizeRegion(page,attempt.crop,4.4,'6');
      const features=tableFeatures(t);
      const grid=await inspectTableGrid(page,attempt.crop);
-     const parsed=parseTable(t,kind,n);
+     const parsed=parseTable(t,kind,n,items.map(x=>x.code));
      // 3〜5列を加点。6列以上は寸法表の可能性として減点する。
      const structure=grid.columns===null?0:grid.columns>=3&&grid.columns<=5?7:grid.columns>=6?-12:0;
      const score=features.score+structure+(parsed.length?6:0);
      const markers=[features.qty?'QTY':'',features.headers?'品番/品名':'',features.specific?'継手名':(features.names?'PIPE等':''),features.codes?'コード'+features.codes+'件':'',features.dimension?'寸法表の疑い':'',grid.columns===null?'列数未確定':grid.columns+'列',grid.lines+'本の横罫線'].filter(Boolean).join('・')||'特徴未検出';
      tableEvidence.push({area,raw:t,crop:attempt.crop,mode:attempt.mode+' / '+markers+' / 評価'+score});
      // 複数の部品表特徴がある候補のみ採用。数量が曖昧なら未確認のまま。
-     if(features.valid&&grid.columns!==null&&grid.columns>=6){/* 多列の寸法表を採用しない */}
-     else if(features.valid&&parsed.length&&score>bestScore){best=parsed;bestScore=score;}
-     if(best.length&&score>=30)break;
+     if(features.dimension || (grid.columns!==null&&grid.columns>=6)){
+      // 寸法表が混在していても、品番の検出自体は残す。数量の確定には使わない。
+      if(parsed.length&&best.length===0)best=parsed;
+     }else if(parsed.length&&score>bestScore){best=parsed;bestScore=score;}
+     if(best.length&&score>=30&&!features.dimension)break;
     }
     rows.push(...best);
     // 位置検出が外れた場合でも「該当なし」を断定しない。
